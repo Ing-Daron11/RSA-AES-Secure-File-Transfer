@@ -13,56 +13,54 @@ public class RSAUtils {
     private static final String ALGORITHM = "RSA";
     private static final int KEY_SIZE = 2048;
 
-    private PublicKey publicKey;
-    private PrivateKey privateKey;
-
     /**
-     * Generate a new pair of keys (public and private)
+     * Generate and return a new pair of keys (public and private) - static method
      */
-    public void generateKeyPair() throws NoSuchAlgorithmException {
+    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance(ALGORITHM);
         keyGen.initialize(KEY_SIZE);
-        KeyPair keyPair = keyGen.generateKeyPair();
-
-        this.publicKey = keyPair.getPublic();
-        this.privateKey = keyPair.getPrivate();
+        return keyGen.generateKeyPair();
     }
 
     /**
-     * Returns the public key in Base64 format (to send to the client)
+     * Encrypts bytes using RSA public key
      */
-    public String getPublicKeyAsString() {
+    public static byte[] encryptRSA(byte[] plainBytes, PublicKey publicKey) throws Exception {
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+        return cipher.doFinal(plainBytes);
+    }
+
+    /**
+     * Decrypts bytes using RSA private key
+     */
+    public static byte[] decryptRSA(byte[] encryptedBytes, PrivateKey privateKey) throws Exception {
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        return cipher.doFinal(encryptedBytes);
+    }
+
+    /**
+     * Returns the public key in Base64 format (for debugging/display)
+     */
+    public static String publicKeyToBase64(PublicKey publicKey) {
         return Base64.getEncoder().encodeToString(publicKey.getEncoded());
     }
 
     /**
-     * Encrypts a text using the public key
+     * Encrypts a text using the public key and returns Base64
      */
-    public String encryptWithPublic(String plainText) throws Exception {
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        byte[] encryptedBytes = cipher.doFinal(plainText.getBytes());
+    public static String encryptWithPublic(String plainText, PublicKey publicKey) throws Exception {
+        byte[] encryptedBytes = encryptRSA(plainText.getBytes(), publicKey);
         return Base64.getEncoder().encodeToString(encryptedBytes);
     }
 
     /**
-     * Decrypts a text using the private key
+     * Decrypts Base64 text using the private key
      */
-    public String decryptWithPrivate(String encryptedText) throws Exception {
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+    public static String decryptWithPrivate(String encryptedText, PrivateKey privateKey) throws Exception {
         byte[] decodedBytes = Base64.getDecoder().decode(encryptedText);
-        byte[] decryptedBytes = cipher.doFinal(decodedBytes);
+        byte[] decryptedBytes = decryptRSA(decodedBytes, privateKey);
         return new String(decryptedBytes);
-    }
-
-    // ======= Getters =========
-
-    public PublicKey getPublicKey() {
-        return publicKey;
-    }
-
-    public PrivateKey getPrivateKey() {
-        return privateKey;
     }
 }
