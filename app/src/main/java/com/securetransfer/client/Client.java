@@ -74,9 +74,9 @@ public class Client {
             //Recibir respuesta del servidor
             String response = in.readUTF();
             if ("OK".equals(response)) {
-                System.out.println("Servidor confirmó: integridad verificada correctamente.");
+                System.out.println("Servidor confirma: integridad verificada correctamente.");
             } else {
-                System.out.println("Servidor reportó: error de integridad.");
+                System.out.println("Servidor reporta: error de integridad.");
             }
 
             socket.close();

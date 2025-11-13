@@ -41,3 +41,22 @@ application {
     mainClass = 'com.securetransfer.server.Server'
 }
 
+// Esta tarea permite ejecutar el servidor en una terminal
+task runServer(type: JavaExec) {
+    group = 'application'
+    description = 'Runs the server'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.securetransfer.server.Server'
+}
+
+// Y esta otra tarea permite ejecutar el cliente en otra terminal
+task runClient(type: JavaExec) {
+    group = 'application'
+    description = 'Runs the client'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.securetransfer.client.Client'
+}
+
+//Nota: Se hacen las dos tareas así para facilitar las pruebas en desarrollo,
+// ya que el plugin 'application' solo permite definir un mainClass por defecto.
+// Para un proyeecto real se podría considerar tener dos subproyectos (cliente y servidor).
