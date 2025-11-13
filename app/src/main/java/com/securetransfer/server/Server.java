@@ -24,7 +24,16 @@ public class Server {
     }
 
     public void start() {
-        System.out.println("Servidor iniciado. Esperando conexión en el puerto " + PORT + "...");
+        System.out.println("         ,MMM8&&&.\r\n" + //
+                        "    _...MMMMM88&&&&..._\r\n" + //
+                        " .::'''MMMMM88&&&&&&'''::.\r\n" + //
+                        "::     MMMMM88&&&&&&     ::\r\n" + //
+                        "'::....MMMMM88&&&&&&....::'\r\n" + //
+                        "   `''''MMMMM88&&&&''''`\r\n" + //
+                        "         'MMM8&&&'");
+
+        System.out.println("Servidor iniciado \n"
+                            + "Esperando conexion en el puerto " + PORT + "...");
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             Socket socket = serverSocket.accept();
@@ -43,7 +52,7 @@ public class Server {
             out.writeInt(publicKeyBytes.length);
             out.write(publicKeyBytes);
             out.flush();
-            System.out.println("Clave pública RSA enviada al cliente.");
+            System.out.println("Clave publica RSA enviada al cliente.");
 
             //Recibir clave AES cifrada
             int encryptedKeyLength = in.readInt();
@@ -75,7 +84,7 @@ public class Server {
 
             //Comparar hashes
             if (Arrays.equals(localHash, receivedHash)) {
-                System.out.println("Integridad verificada: el archivo se transfirió correctamente.");
+                System.out.println("Integridad verificada: el archivo se transfirio correctamente.");
                 out.writeUTF("OK");
             } else {
                 System.out.println("Error de integridad: los hashes no coinciden.");

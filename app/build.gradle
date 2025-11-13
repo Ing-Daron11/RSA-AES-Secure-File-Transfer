@@ -55,6 +55,7 @@ task runClient(type: JavaExec) {
     description = 'Runs the client'
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'com.securetransfer.client.Client'
+    workingDir = rootDir  // Ejecutar desde la raíz del proyecto
 }
 
 //Nota: Se hacen las dos tareas así para facilitar las pruebas en desarrollo,

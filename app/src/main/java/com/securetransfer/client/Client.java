@@ -23,7 +23,27 @@ public class Client {
     }
 
     public void start() {
-        System.out.println("Cliente iniciando. Conectando al servidor en " + SERVER_HOST + ":" + SERVER_PORT + "...");
+        System.out.println("                _____\r\n" + //
+                        "             ,-\"     \"-.\r\n" + //
+                        "            / o       o \\\r\n" + //
+                        "           /   \\     /   \\\r\n" + //
+                        "          /     )-\"-(     \\\r\n" + //
+                        "         /     ( 6 6 )     \\\r\n" + //
+                        "        /       \\ \" /       \\\r\n" + //
+                        "       /         )=(         \\\r\n" + //
+                        "      /   o   .--\"-\"--.   o   \\\r\n" + //
+                        "     /    I  /  -   -  \\  I    \\\r\n" + //
+                        " .--(    (_}y/\\       /\\y{_)    )--.\r\n" + //
+                        "(    \".___l\\/__\\_____/__\\/l___,\"    )\r\n" + //
+                        " \\                                 /\r\n" + //
+                        "  \"-._      o O o O o O o      _,-\"\r\n" + //
+                        "      `--Y--.___________.--Y--'\r\n" + //
+                        "         |==.___________.==| hjw\r\n" + //
+                        "         `==.___________.==' `97\r\n" + //
+                        "");
+
+        System.out.println("Cliente iniciando \n" + 
+                            "Conectando al servidor en " + SERVER_HOST + ":" + SERVER_PORT + "...");
 
         try (Socket socket = new Socket(SERVER_HOST, SERVER_PORT)) {
             DataInputStream in = new DataInputStream(socket.getInputStream());
@@ -40,7 +60,7 @@ public class Client {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             X509EncodedKeySpec spec = new X509EncodedKeySpec(publicKeyBytes);
             PublicKey serverPublicKey = keyFactory.generatePublic(spec);
-            System.out.println("Clave pública RSA del servidor recibida.");
+            System.out.println("Clave publica RSA del servidor recibida.");
 
             //Generar clave AES
             SecretKey aesKey = AESUtil.generateAESKey();
@@ -53,9 +73,11 @@ public class Client {
             out.flush();
             System.out.println("Clave AES cifrada y enviada al servidor.");
 
+            // Buscar archivo en múltiples ubicaciones
+            String fileToUse = findInputFile();
+            
             //Leer archivo a enviar
-            byte[] fileData = FileUtils.readFile(INPUT_FILE);
-            System.out.println("Archivo leído: " + INPUT_FILE + " (" + fileData.length + " bytes)");
+            byte[] fileData = FileUtils.readFile(fileToUse);
 
             //Cifrar archivo con AES y enviar
             byte[] encryptedFile = AESUtil.encrypt(fileData, aesKey);
@@ -86,5 +108,29 @@ public class Client {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * Busca el archivo de entrada en la carpeta del cliente
+     */
+    private String findInputFile() throws FileNotFoundException {
+        // Buscar en la carpeta del cliente (src/main/java/com/securetransfer/client/)
+        String clientDir = "app/src/main/java/com/securetransfer/client/";
+        String filePath = clientDir + INPUT_FILE;
+        
+        File file = new File(filePath);
+        if (file.exists()) {
+            //System.out.println("Archivo encontrado en: " + file.getAbsolutePath());
+            return filePath;
+        }
+        
+        // Si no existe, intentar desde la carpeta actual
+        file = new File(INPUT_FILE);
+        if (file.exists()) {
+            //System.out.println("Archivo encontrado en: " + file.getAbsolutePath());
+            return INPUT_FILE;
+        }
+        
+        throw new FileNotFoundException("No se encontró '" + INPUT_FILE + "' en " + clientDir);
     }
 }
