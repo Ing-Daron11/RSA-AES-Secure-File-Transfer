@@ -7,8 +7,12 @@
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
+    id 'java'
     id 'application'
 }
+
+group = 'com.securetransfer'
+version = '1.0'
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -19,8 +23,10 @@ dependencies {
     // Use JUnit test framework.
     testImplementation libs.junit
 
-    // This dependency is used by the application.
-    implementation libs.guava
+}
+
+test {
+    useJUnitPlatform()
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -31,6 +37,7 @@ java {
 }
 
 application {
-    // Define the main class for the application.
-    mainClass = 'org.example.App'
+    // Este será el punto de entrada por defecto
+    mainClass = 'com.securetransfer.server.Server'
 }
+
