@@ -24,13 +24,15 @@ public class Server {
     }
 
     public void start() {
-        System.out.println("         ,MMM8&&&.\r\n" + //
+        String YELLOW = "\u001B[33m";
+        String RESET = "\u001B[0m";
+        System.out.println(YELLOW +"         ,MMM8&&&.\r\n" + //
                         "    _...MMMMM88&&&&..._\r\n" + //
                         " .::'''MMMMM88&&&&&&'''::.\r\n" + //
                         "::     MMMMM88&&&&&&     ::\r\n" + //
                         "'::....MMMMM88&&&&&&....::'\r\n" + //
                         "   `''''MMMMM88&&&&''''`\r\n" + //
-                        "         'MMM8&&&'");
+                        "         'MMM8&&&'" + RESET);
 
         System.out.println("Servidor iniciado \n"
                             + "Esperando conexion en el puerto " + PORT + "...");

@@ -23,7 +23,11 @@ public class Client {
     }
 
     public void start() {
-        System.out.println("                _____\r\n" + //
+        // Código ANSI para color azul
+        String BLUE = "\u001B[34m";
+        String RESET = "\u001B[0m";
+        
+        System.out.println(BLUE + "                _____\r\n" + //
                         "             ,-\"     \"-.\r\n" + //
                         "            / o       o \\\r\n" + //
                         "           /   \\     /   \\\r\n" + //
@@ -40,7 +44,7 @@ public class Client {
                         "      `--Y--.___________.--Y--'\r\n" + //
                         "         |==.___________.==| hjw\r\n" + //
                         "         `==.___________.==' `97\r\n" + //
-                        "");
+                        "" + RESET);
 
         System.out.println("Cliente iniciando \n" + 
                             "Conectando al servidor en " + SERVER_HOST + ":" + SERVER_PORT + "...");
