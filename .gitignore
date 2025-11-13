@@ -3,3 +3,7 @@
 
 # Ignore Gradle build output directory
 build
+
+# Ignore IDE or tool 'bin' directories (generated binaries)
+bin/
+bin/**
